@@ -1,0 +1,9 @@
+Flask
+Flask-Session
+psycopg2
+SQLAlchemy
+python-dotenv
+flask-wtf
+flask-sqlalchemy
+flask-migrate
+flask-login

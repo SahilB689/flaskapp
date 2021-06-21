@@ -1,0 +1,71 @@
+#+STARTUP: inlineimages
+* Database Modelling: books
+#+BEGIN_SRC plantuml :file books_model.png
+  @startuml
+  !define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+  ' we use bold for primary key
+  ' green color for unique
+  ' and underscore for not_null
+  !define primary_key(x) <b>x</b>
+  !define foreign_key(x) <i>x</i>
+  !define unique(x) <color:green>x</color>
+  !define not_null(x) <u>x</u>
+  hide methods
+  hide stereotypes
+
+  ' entities
+
+  Table(years, "pub_year\n(year of book publication)") {
+  primary_key(id) INTEGER
+  not_null(year) INTEGER
+  }
+
+  Table(authors, "authors\n(authors in db)") {
+  primary_key(id) INTEGER
+  not_null(unique(author)) VARCHAR[100]
+  }
+
+  Table(book_table, "book_table\n(books in db)") {
+  primary_key(isbn) STRING
+  not_null(book) VARCHAR[100]
+  }
+
+  Table(titles, "titles\n(books)") {
+  primary_key(id) INTEGER
+  foreign_key(book_id) book_table.isbn
+  foreign_key(author_id) author.id
+  foreign_key(year_id) year.id
+  }
+
+  ' relationships
+  'one-to-one relationship
+  authors -- titles : "A title may have\n many author"
+  ' one-to-many relationship
+  years -- titles : " An year may have\n many titles"
+
+  @enduml
+
+#+END_SRC
+
+#+RESULTS:
+[[file:books_model.png]]
+
+
+* Project 1: TODO [3/11]
++ [X] create layout.html in templates folder.
++ [X] create index.html to start with.
++ [X] Create login [3/3]
+  - [X] forms.py using flask-wtforms.
+  - [X] login.html to render login form.
+  - [X] route for login in application.py
++ [ ] Registration form.
++ [ ] Logout
++ [ ] Import the books into database.
++ [ ] Search functionality for books.
++ [ ] Extending result of search, linking to detailed description of particular book
++ [ ] Review Submission.
++ [ ] Goodreads Review data, probably linked with detailed description of
+particular book.
++ [ ] API Access.[0/2]
+  - [ ] GET request /api/<isbn> return JSON response.
+  - [ ] if ISBN not in database, return a 404 error.
